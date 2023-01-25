@@ -1,0 +1,234 @@
+{
+  "version": "29.0.0",
+  "artifacts": {
+    "PayAuthors.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "PayAuthors.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "PayAuthors": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "PayAuthors.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ddeee13618d2dae3aa178ad7d3027c5d6ad961a302191fcec958f18b45f70f4e.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "PayAuthors.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "PayAuthors.assets"
+      ],
+      "metadata": {
+        "/PayAuthors/RareBooks": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "RareBooks7A47FBA2"
+            }
+          }
+        ],
+        "/PayAuthors/RareBooks/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RareBooks7A47FBA2"
+          }
+        ],
+        "/PayAuthors/addRareBook/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "addRareBookServiceRole77327F76"
+          }
+        ],
+        "/PayAuthors/addRareBook/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "addRareBookServiceRoleDefaultPolicyC8BB6E43"
+          }
+        ],
+        "/PayAuthors/addRareBook/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "addRareBook7DDBEAC4"
+          }
+        ],
+        "/PayAuthors/checkRareBooks/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "checkRareBooksServiceRole4A1C4C2B"
+          }
+        ],
+        "/PayAuthors/checkRareBooks/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "checkRareBooksServiceRoleDefaultPolicy0A7A49A1"
+          }
+        ],
+        "/PayAuthors/checkRareBooks/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "checkRareBooks7D97F749"
+          }
+        ],
+        "/PayAuthors/deleteRareBook/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "deleteRareBookServiceRole6F0174FA"
+          }
+        ],
+        "/PayAuthors/deleteRareBook/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "deleteRareBookServiceRoleDefaultPolicy6E71A458"
+          }
+        ],
+        "/PayAuthors/deleteRareBook/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "deleteRareBookDE6DE9D7"
+          }
+        ],
+        "/PayAuthors/scheduleRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "scheduleRule8FE1E73B"
+          }
+        ],
+        "/PayAuthors/scheduleRule/AllowEventRulePayAuthorscheckRareBooksEF98F77A": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "scheduleRuleAllowEventRulePayAuthorscheckRareBooksEF98F77ABB4CAA94"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPIC18CC3DD"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPICloudWatchRole37635269"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPIAccount12A2705D"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPIDeployment3FE38BF08e29991cdd299b43839ed373b41d47e8"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPIDeploymentStageprod0B6A564C"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPIEndpointA0554EC6"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/Default/book/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPIbook748C705B"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/Default/book/POST/ApiPermission.PayAuthorspayAuthorAPI0757895D.POST..book": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPIbookPOSTApiPermissionPayAuthorspayAuthorAPI0757895DPOSTbook41AC4D7E"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/Default/book/POST/ApiPermission.Test.PayAuthorspayAuthorAPI0757895D.POST..book": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPIbookPOSTApiPermissionTestPayAuthorspayAuthorAPI0757895DPOSTbookC2CD605A"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/Default/book/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPIbookPOSTCBAE6A5B"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/Default/book/DELETE/ApiPermission.PayAuthorspayAuthorAPI0757895D.DELETE..book": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPIbookDELETEApiPermissionPayAuthorspayAuthorAPI0757895DDELETEbook481C6299"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/Default/book/DELETE/ApiPermission.Test.PayAuthorspayAuthorAPI0757895D.DELETE..book": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPIbookDELETEApiPermissionTestPayAuthorspayAuthorAPI0757895DDELETEbook63F80D55"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/Default/book/DELETE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPIbookDELETE3C69C5CF"
+          }
+        ],
+        "/PayAuthors/payAuthorAPI/Default/book/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "payAuthorAPIbookOPTIONS2F3BDE0B"
+          }
+        ],
+        "/PayAuthors/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/PayAuthors/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/PayAuthors/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/PayAuthors/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "PayAuthors"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

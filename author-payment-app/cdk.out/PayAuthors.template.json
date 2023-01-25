@@ -1,0 +1,1125 @@
+{
+ "Resources": {
+  "RareBooks7A47FBA2": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "KeySchema": [
+     {
+      "AttributeName": "postHashHex",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "serial",
+      "KeyType": "RANGE"
+     }
+    ],
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "postHashHex",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "serial",
+      "AttributeType": "S"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 1,
+     "WriteCapacityUnits": 1
+    },
+    "TableName": "RareBooks"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/RareBooks/Resource"
+   }
+  },
+  "addRareBookServiceRole77327F76": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/addRareBook/ServiceRole/Resource"
+   }
+  },
+  "addRareBookServiceRoleDefaultPolicyC8BB6E43": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "RareBooks7A47FBA2",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "addRareBookServiceRoleDefaultPolicyC8BB6E43",
+    "Roles": [
+     {
+      "Ref": "addRareBookServiceRole77327F76"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/addRareBook/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "addRareBook7DDBEAC4": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "236da763eb92d498f6e7797f55bdaa710336c7043bcc135581d998f5208a7a4b.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "addRareBookServiceRole77327F76",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "PRIMARY_KEY": "postHashHex",
+      "SORT_KEY": "serial",
+      "TABLE_NAME": {
+       "Ref": "RareBooks7A47FBA2"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "Handler": "index.handler",
+    "Runtime": "nodejs14.x"
+   },
+   "DependsOn": [
+    "addRareBookServiceRoleDefaultPolicyC8BB6E43",
+    "addRareBookServiceRole77327F76"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/addRareBook/Resource",
+    "aws:asset:path": "asset.236da763eb92d498f6e7797f55bdaa710336c7043bcc135581d998f5208a7a4b",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "checkRareBooksServiceRole4A1C4C2B": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/checkRareBooks/ServiceRole/Resource"
+   }
+  },
+  "checkRareBooksServiceRoleDefaultPolicy0A7A49A1": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "RareBooks7A47FBA2",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "checkRareBooksServiceRoleDefaultPolicy0A7A49A1",
+    "Roles": [
+     {
+      "Ref": "checkRareBooksServiceRole4A1C4C2B"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/checkRareBooks/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "checkRareBooks7D97F749": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "6b730bf62f5d542cc610df1c15f90ad06303be9e9050108c2ce360ca0a3d176d.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "checkRareBooksServiceRole4A1C4C2B",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "PRIMARY_KEY": "postHashHex",
+      "SORT_KEY": "serial",
+      "TABLE_NAME": {
+       "Ref": "RareBooks7A47FBA2"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "Handler": "index.handler",
+    "Runtime": "nodejs14.x"
+   },
+   "DependsOn": [
+    "checkRareBooksServiceRoleDefaultPolicy0A7A49A1",
+    "checkRareBooksServiceRole4A1C4C2B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/checkRareBooks/Resource",
+    "aws:asset:path": "asset.6b730bf62f5d542cc610df1c15f90ad06303be9e9050108c2ce360ca0a3d176d",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "deleteRareBookServiceRole6F0174FA": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/deleteRareBook/ServiceRole/Resource"
+   }
+  },
+  "deleteRareBookServiceRoleDefaultPolicy6E71A458": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "RareBooks7A47FBA2",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "deleteRareBookServiceRoleDefaultPolicy6E71A458",
+    "Roles": [
+     {
+      "Ref": "deleteRareBookServiceRole6F0174FA"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/deleteRareBook/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "deleteRareBookDE6DE9D7": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "b8955ac6cc07d99d7bd50f1607012fbd4d20832ce63b6e6bd154b8c941775142.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "deleteRareBookServiceRole6F0174FA",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "PRIMARY_KEY": "postHashHex",
+      "SORT_KEY": "serial",
+      "TABLE_NAME": {
+       "Ref": "RareBooks7A47FBA2"
+      },
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "Handler": "index.handler",
+    "Runtime": "nodejs14.x"
+   },
+   "DependsOn": [
+    "deleteRareBookServiceRoleDefaultPolicy6E71A458",
+    "deleteRareBookServiceRole6F0174FA"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/deleteRareBook/Resource",
+    "aws:asset:path": "asset.b8955ac6cc07d99d7bd50f1607012fbd4d20832ce63b6e6bd154b8c941775142",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "scheduleRule8FE1E73B": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "ScheduleExpression": "rate(1 hour)",
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "checkRareBooks7D97F749",
+        "Arn"
+       ]
+      },
+      "Id": "Target0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/scheduleRule/Resource"
+   }
+  },
+  "scheduleRuleAllowEventRulePayAuthorscheckRareBooksEF98F77ABB4CAA94": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "checkRareBooks7D97F749",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "scheduleRule8FE1E73B",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/scheduleRule/AllowEventRulePayAuthorscheckRareBooksEF98F77A"
+   }
+  },
+  "payAuthorAPIC18CC3DD": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "Pay Author API"
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/payAuthorAPI/Resource"
+   }
+  },
+  "payAuthorAPICloudWatchRole37635269": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/payAuthorAPI/CloudWatchRole/Resource"
+   }
+  },
+  "payAuthorAPIAccount12A2705D": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "payAuthorAPICloudWatchRole37635269",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "payAuthorAPIC18CC3DD"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/payAuthorAPI/Account"
+   }
+  },
+  "payAuthorAPIDeployment3FE38BF08e29991cdd299b43839ed373b41d47e8": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "payAuthorAPIC18CC3DD"
+    },
+    "Description": "Automatically created by the RestApi construct"
+   },
+   "DependsOn": [
+    "payAuthorAPIbookDELETE3C69C5CF",
+    "payAuthorAPIbookOPTIONS2F3BDE0B",
+    "payAuthorAPIbookPOSTCBAE6A5B",
+    "payAuthorAPIbook748C705B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/payAuthorAPI/Deployment/Resource"
+   }
+  },
+  "payAuthorAPIDeploymentStageprod0B6A564C": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "payAuthorAPIC18CC3DD"
+    },
+    "DeploymentId": {
+     "Ref": "payAuthorAPIDeployment3FE38BF08e29991cdd299b43839ed373b41d47e8"
+    },
+    "StageName": "prod"
+   },
+   "DependsOn": [
+    "payAuthorAPIAccount12A2705D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/payAuthorAPI/DeploymentStage.prod/Resource"
+   }
+  },
+  "payAuthorAPIbook748C705B": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "payAuthorAPIC18CC3DD",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "book",
+    "RestApiId": {
+     "Ref": "payAuthorAPIC18CC3DD"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/payAuthorAPI/Default/book/Resource"
+   }
+  },
+  "payAuthorAPIbookPOSTApiPermissionPayAuthorspayAuthorAPI0757895DPOSTbook41AC4D7E": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "addRareBook7DDBEAC4",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "payAuthorAPIC18CC3DD"
+       },
+       "/",
+       {
+        "Ref": "payAuthorAPIDeploymentStageprod0B6A564C"
+       },
+       "/POST/book"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/payAuthorAPI/Default/book/POST/ApiPermission.PayAuthorspayAuthorAPI0757895D.POST..book"
+   }
+  },
+  "payAuthorAPIbookPOSTApiPermissionTestPayAuthorspayAuthorAPI0757895DPOSTbookC2CD605A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "addRareBook7DDBEAC4",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "payAuthorAPIC18CC3DD"
+       },
+       "/test-invoke-stage/POST/book"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/payAuthorAPI/Default/book/POST/ApiPermission.Test.PayAuthorspayAuthorAPI0757895D.POST..book"
+   }
+  },
+  "payAuthorAPIbookPOSTCBAE6A5B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "POST",
+    "ResourceId": {
+     "Ref": "payAuthorAPIbook748C705B"
+    },
+    "RestApiId": {
+     "Ref": "payAuthorAPIC18CC3DD"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "addRareBook7DDBEAC4",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/payAuthorAPI/Default/book/POST/Resource"
+   }
+  },
+  "payAuthorAPIbookDELETEApiPermissionPayAuthorspayAuthorAPI0757895DDELETEbook481C6299": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "deleteRareBookDE6DE9D7",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "payAuthorAPIC18CC3DD"
+       },
+       "/",
+       {
+        "Ref": "payAuthorAPIDeploymentStageprod0B6A564C"
+       },
+       "/DELETE/book"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/payAuthorAPI/Default/book/DELETE/ApiPermission.PayAuthorspayAuthorAPI0757895D.DELETE..book"
+   }
+  },
+  "payAuthorAPIbookDELETEApiPermissionTestPayAuthorspayAuthorAPI0757895DDELETEbook63F80D55": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "deleteRareBookDE6DE9D7",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "payAuthorAPIC18CC3DD"
+       },
+       "/test-invoke-stage/DELETE/book"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/payAuthorAPI/Default/book/DELETE/ApiPermission.Test.PayAuthorspayAuthorAPI0757895D.DELETE..book"
+   }
+  },
+  "payAuthorAPIbookDELETE3C69C5CF": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "DELETE",
+    "ResourceId": {
+     "Ref": "payAuthorAPIbook748C705B"
+    },
+    "RestApiId": {
+     "Ref": "payAuthorAPIC18CC3DD"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "deleteRareBookDE6DE9D7",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/payAuthorAPI/Default/book/DELETE/Resource"
+   }
+  },
+  "payAuthorAPIbookOPTIONS2F3BDE0B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "OPTIONS",
+    "ResourceId": {
+     "Ref": "payAuthorAPIbook748C705B"
+    },
+    "RestApiId": {
+     "Ref": "payAuthorAPIC18CC3DD"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Credentials": "'false'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE'"
+       },
+       "StatusCode": "200"
+      }
+     ],
+     "PassthroughBehavior": "NEVER",
+     "RequestTemplates": {
+      "application/json": "{\"statusCode\": 200}"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true,
+       "method.response.header.Access-Control-Allow-Origin": true
+      },
+      "StatusCode": "200"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/payAuthorAPI/Default/book/OPTIONS/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1VRy07DMBD8Fu6OaUHqPS3iVkCBe7Sxl+AktqOs3SqK8u/4ESicdmbWM961H/hhx3d3cKVCyL4YVMOXdweiZ0GqFzkb0FYG8QOaAdnp0ySwsgF0I6E2VmJH/CWVZ2+EU9YwBZovlc2GVN/soMQcaUYro8caiNARL2MJnB+96NEdgXCL50sw/KZGM05aEQW2MrygCe6l8ts9Ps4Fo2rB4RXm0EFy5ahS8wZLIaw3jj3hONhZh5Co/mFh/zYlZhCs1k8C01w/ZMvM+Izuy8ooZbSut3NpuRikTBtPvHo3evfPHvDJGqlcWiu+KO/o/rI/8H38m46UKqYwsdLIq1y/AYwCEvS3AQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "PayAuthors/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "payAuthorAPIEndpointA0554EC6": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "payAuthorAPIC18CC3DD"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "payAuthorAPIDeploymentStageprod0B6A564C"
+      },
+      "/"
+     ]
+    ]
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

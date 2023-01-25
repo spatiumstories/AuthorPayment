@@ -1,0 +1,19 @@
+{
+  "name": "lambda-crud-dynamodb",
+  "version": "1.0.0",
+  "description": "Lambdas to do CRUD operations on DynamoDB",
+  "private": true,
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "*",
+    "@types/uuid": "*"
+  },
+  "dependencies": {
+    "aws-sdk": "*",
+    "deso-protocol": "^0.7.27",
+    "form-data": "^4.0.0",
+    "node-fetch": "^3.3.0",
+    "tslib": "^2.4.1",
+    "uuid": "*"
+  }
+}
